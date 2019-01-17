@@ -7,13 +7,15 @@
     "start": "node server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "engine": {
+  "engines": {
     "node": "10.7.0"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",
+    "g": "^2.0.1",
+    "heroku": "^7.19.4",
     "socket.io": "^2.2.0"
   }
 }
