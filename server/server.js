@@ -3,6 +3,8 @@ const express=require('express');
 
 var app=express();
 
+const port=process.env.PORT || 3000;
+
 const publicPath=path.join(__dirname,'../public');
 
 app.use(express.static(publicPath));
@@ -13,8 +15,8 @@ app.use(express.static(publicPath));
 
 
 
-app.listen(3000,function(req,res){
-	console.log('Server is up in port 3000...');
+app.listen(port,function(req,res){
+	console.log(`Server is up in port ${port}...`);
 })
 
 
