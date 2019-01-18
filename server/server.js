@@ -11,31 +11,21 @@ var io=socketIO(server);
 
 
 app.use(express.static(publicPath));
+const {generateMessage}=require('./utils/message');
+
 
 
 io.on('connection',(socket)=>{
 	console.log('new user connected:server');
 
-	socket.emit('newMessage',{
-		from:'Admin',
-		text:'Welcome to the chat App!',
-		createdAt:new Date().getTime()
-	});
+	socket.emit('newMessage',generateMessage('Admin','Welcome to chat app'));
 
-	socket.broadcast.emit('newMessage',{
-		from:'Admin',
-		text:'New User joined!',
-		createdAt:new Date().getTime()
-	})
+	socket.broadcast.emit('newMessage',generateMessage('Admin','New player joined'));
 
 
 	socket.on('createMessage',function(newMessage){
 		console.log('new Message:',newMessage);
-		io.emit('newMessage',{
-			from:newMessage.from,
-			text:newMessage.text,
-			createdAt:new Date().getTime()
-		})
+		io.emit('newMessage',generateMessage(newMessage.from,newMessage.text))
 		// socket.broadcast.emit('newMessage',{
 		// 	from:newMessage.from,
 		// 	text:newMessage.text,
