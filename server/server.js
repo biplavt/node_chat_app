@@ -11,7 +11,7 @@ var io=socketIO(server);
 
 
 app.use(express.static(publicPath));
-const {generateMessage}=require('./utils/message');
+const {generateMessage,generateLocationMessage}=require('./utils/message');
 
 
 
@@ -23,16 +23,15 @@ io.on('connection',(socket)=>{
 	socket.broadcast.emit('newMessage',generateMessage('Admin','New player joined'));
 
 
-	socket.on('createMessage',function(newMessage){
+	socket.on('createMessage',function(newMessage,callback){
 		console.log('new Message:',newMessage);
 		io.emit('newMessage',generateMessage(newMessage.from,newMessage.text))
-		// socket.broadcast.emit('newMessage',{
-		// 	from:newMessage.from,
-		// 	text:newMessage.text,
-		// 	createdAt:new Date().getTime()
-		// })
+		callback('This is from the server.');
 	})
 
+	socket.on('createLocationMessage',(coords)=>{
+		io.emit('newLocationMessage',generateLocationMessage('Admin',coords.latitude, coords.longitude))
+	});
 
 
 	socket.on('disconnect',()=>{
